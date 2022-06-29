@@ -1,13 +1,10 @@
 import React from 'react'
 import './student.css'
+import StudentsTable from '../components/students/studentsTable'
 function Students() {
   return (
     <div className='students'>
-      <div className='test'>hello</div>
-      <div>hello 2</div>
-      <div>hello 3</div>
-      <div>hello 4</div>
-      <div>hello 5</div>
+      <StudentsTable/>
     </div>
   )
 }

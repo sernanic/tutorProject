@@ -1,4 +1,4 @@
-.students {
+/* .students {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(12, 1fr);
@@ -9,4 +9,4 @@
 .test{
     grid-column: 3 / span 6;
     grid-row: 4/9;
-}
+} */
