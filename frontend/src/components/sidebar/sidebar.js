@@ -1,41 +1,25 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import * as mdIcons from 'react-icons/md';
+import {sideBarData} from './sidebarData';
+import './sidebar.css';
 
 function Sidebar() {
   const [showSidebar, setShowSidebar] = useState(false)
   return (
     <>
-
-
-      <div>
-        <Link to="#" className="menuBars">
-          <mdIcons.MdHome />
-        </Link>
-        <h3 className="mt-20 text-4xl font-semibold text-black">I am a sidebar</h3>
-      </div>
-      <nav>
+      <nav className="nav-menu">
         <ul>
-          <li>
-            <Link to="#" className="menuBars">
-              <mdIcons.MdHome />
-            </Link>
-          </li>
-          <li>
-            <Link to="#" className="menuBars">
-              <mdIcons.MdHome />
-            </Link>
-          </li>
-          <li>
-            <Link to="#" className="menuBars">
-              <mdIcons.MdHome />
-            </Link>
-          </li>
-          <li>
-            <Link to="#" className="menuBars">
-              <mdIcons.MdHome />
-            </Link>
-          </li>
+          {sideBarData.map((item,index)=>{
+            return(
+              <li key={index} className={item.cName}>
+                <Link to={item.path}>
+                  {item.icon}
+                  <span>{item.title}</span>
+                </Link>
+              </li>
+            )
+          })}
         </ul>
       </nav>
     </>
