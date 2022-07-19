@@ -1,6 +1,7 @@
 
 from fastapi import FastAPI
 from routes.index import user
+from routes.index import teachers
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -19,6 +20,8 @@ allow_headers=["*"], # Allows all headers
 )
 
 app.include_router(user)
+app.include_router(teachers)
+
 
 
 @app.get("/")

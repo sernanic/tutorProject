@@ -1,8 +1,8 @@
 from pydantic import BaseModel
-from models import student
+from models import teacher
 class Teacher(BaseModel):
     teacherName:str
     teacherEmail:str
     teacherPassword:str
-    isAdmin:bool
     studentList:str
+    isAdmin:bool

@@ -8,6 +8,7 @@ import {matchSorter} from 'match-sorter';
 
 function StudentsTable() {
     const [allStudents, setAllStudents] = useState([]);
+    const [filterValue, setFilterValue] = useState();
 
 
 
@@ -130,7 +131,7 @@ function StudentsTable() {
         []
     )
 
-    const studentTableInstance = useTable({ columns, data, initialState: { pageIndex: 1 }, filterTypes, defaultColumn }, tableHooks,useFilters, useGlobalFilter, useSortBy,usePagination);
+    const studentTableInstance = useTable({ columns, data, initialState: { pageIndex: 0 }, filterTypes, defaultColumn }, tableHooks,useFilters, useGlobalFilter, useSortBy,usePagination);
     const {
         getTableProps,
         getTableBodyProps,
@@ -249,6 +250,18 @@ function StudentsTable() {
                 setGlobalFilter={setGlobalFilter}
                 globalFilter={state.globalFilter}
             />
+            {headerGroups.map((headerGroup) => (
+                        <div {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map((column) => (
+                                <div scope="col" className="px-6 py-3" {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                    {column.canFilter ? column.render('Header') : null}
+
+                                    {/* {column.isSorted ? (column.isSortedDesc ? " ▼" : " ▲") : ""} */}
+                                    <div>{column.canFilter ? column.render('Filter') : null}</div>
+                                </div>
+                            ))}
+                        </div>
+                    ))}
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" {...getTableProps()}>
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     {headerGroups.map((headerGroup) => (
@@ -256,14 +269,14 @@ function StudentsTable() {
                             {headerGroup.headers.map((column) => (
                                 <th scope="col" className="px-6 py-3" {...column.getHeaderProps(column.getSortByToggleProps())}>
                                     {column.render("Header")}
+
                                     {column.isSorted ? (column.isSortedDesc ? " ▼" : " ▲") : ""}
-                                    <div>{column.canFilter ? column.render('Filter') : null}</div>
                                 </th>
                             ))}
                         </tr>
                     ))}
                 </thead>
-                <tbody {...getTableBodyProps()}>
+                <tbody {...getTableBodyProps()} style={{height: '200px'}}>
                     {page.map((row, idx) => {
                         prepareRow(row);
                         return (
@@ -278,6 +291,7 @@ function StudentsTable() {
                     })}
                 </tbody>
             </table>
+            {/* Pagination arrows */}
             <div className="pagination">
                 <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
                     {'<<'}
@@ -294,14 +308,14 @@ function StudentsTable() {
                 <span>
                     Page{' '}
                     <strong>
-                        {pageIndex } of {pageOptions.length}
+                        {pageIndex + 1} of {pageOptions.length}
                     </strong>{' '}
                 </span>
                 <span>
                     | Go to page:{' '}
                     <input
                         type="number"
-                        defaultValue={pageIndex + 1}
+                        defaultValue={pageIndex}
                         onChange={e => {
                             const page = e.target.value ? Number(e.target.value) - 1 : 0
                             gotoPage(page)
