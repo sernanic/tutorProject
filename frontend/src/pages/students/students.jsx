@@ -12,11 +12,8 @@ function Students() {
      <Link to="/addStudent">
         <p>add student</p>
       </Link>
-      
       <StudentsTable/>
      </div>
-     
-      
     </div>
   )
 }

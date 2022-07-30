@@ -13,7 +13,7 @@ export const loginTutor = (clientId) =>{
 export const loginAdmin = (clientId) =>{
     console.log(clientId)
     return(dispatch)=>{
-        dispatch({
+        dispatch({ 
             type: 'admin',
             payload: clientId
         })
