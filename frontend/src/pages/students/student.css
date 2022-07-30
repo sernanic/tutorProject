@@ -1,0 +1,8 @@
+.students {
+    display: flex;
+    flex-direction: row;
+}
+.test{
+    grid-column: 3 / span 6;
+    grid-row: 4/9;
+} 
