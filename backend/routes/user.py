@@ -13,7 +13,16 @@ async def read_data():
 
 @user.get('/users/{id}/view')
 async def read_data(id):
+    print(id)
     return connection.execute(users.select().where(users.c.id == id)).fetchall()
+
+    
+
+
+@user.get('/users/{userName}/{userPassword}/login')
+async def read_data(userName,userPassword):
+    print('hello')
+    return connection.execute(users.select().where(users.c.userName == userName and users.c.userPassword == userName )).fetchall()
 
 @user.post('/')
 async def write_data(user:User):
