@@ -54,7 +54,15 @@ Run the following command in the terminal
 
 ### Database Instructions
 
-* Go to the .env.sample file of the backend, rename it to .env 
+* Download Mysql 
+
+* Download Mysql Workbench and open it
+
+* Under MySQL Connections, if there is a local instance If there is, click on it
+
+* If not, press the + button to create one and set username and password
+
+* Back to the project, go to the .env.sample file of the backend, rename it to .env 
 
 * Inside the .env file, adjust the DATABASE_URL according to your mysql username and password
 
@@ -63,12 +71,6 @@ Run the following command in the terminal
   //example:
   DATABASE_URL=mysql+pymysql://NicolasSerna:Sernanic123!@localhost:3306/tutorProject
 ```
-
-* Download Mysql 
-
-* Download Mysql Workbench
-
-* Set Mysql password
 
 * run migrations so you have the models in your database (make sure you are in the backend folder)
 
