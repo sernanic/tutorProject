@@ -28,45 +28,64 @@ Go to the backend of the project directory
   cd tutorProject/backend
 ```
 
+#### Create a Python virtual environment
+
+```bash
+  python3 -m venv venv
+```
+
+#### Enter in the virtual environment (mac)
+```bash
+  source venv/bin/activate
+```
+
+#### obs: Before the next step, check if your python interpreter is set to ./backend/venv/bin/python3
+
+
 #### Install dependencies 
 
 Installation might change based on OS
 
-* fastapi
-* uvicorn
-* sqlalchemy
-* urllib
+Run the following command in the terminal
+
+```bash
+  pip install -r requirements.txt
+```
 
 ### Database Instructions
 
-* Download Mysql
+* Download Mysql 
 
-* Download Mysql Workbench
+* Download Mysql Workbench and open it
 
-* Set Mysql password
+* Under MySQL Connections, if there is a local instance If there is, click on it
 
-* Run db_update.sql in mysql Workbench
+* If not, press the + button to create one and set username and password
 
-* Go to the config file of the backend to adjust  db url according to your mysql username and password
+* Back to the project, go to the .env.sample file of the backend, rename it to .env 
+
+* Inside the .env file, adjust the DATABASE_URL according to your mysql username and password
+
+```
+  DATABASE_URL=mysql+pymysql://user:pass!@localhost:3306/tutorProject
+  //example:
+  DATABASE_URL=mysql+pymysql://NicolasSerna:Sernanic123!@localhost:3306/tutorProject
+```
+
+* run migrations so you have the models in your database (make sure you are in the backend folder)
 
 ```bash
-  cd tutorProject/backend/config
+  alembic revision --autogenerate -m 'test'
+  
+  alembig upgrade head
 ```
-* Edit line 13 of the file db.py with your mysql information
-
-```python
-  engine = create_engine('mysql+pymysql://{username}:%s@localhost:3306/tutorProject' % quote('{mysqlpassword}'))
-  //example:
-  engine = create_engine('mysql+pymysql://nicolasSerna:%s@localhost:3306/tutorProject' % quote('12345'))
-```
-* run db_update.sql file, located  in tutorProject/backend/config, mysql Workbench to setup database and create all tables/data needed
 
 ### Start the frontend / backend servers
 
 #### backend
 
 ```bash
-cd tutorProject/backend
+cd tutorProject/backend/app
 
 uvicorn main:app --reload
 ```
