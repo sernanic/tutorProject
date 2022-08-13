@@ -1,48 +1,51 @@
-from fastapi import APIRouter, Depends
+from config.security import get_password_hash
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from schemas.user import UserSchema
+from schemas.user import UserResponse, UserCreate, UserSchema
 from models.user import User
+from routes.crud.users import get_by_email
 from ..deps import get_db
 
 router = APIRouter()
 
 
-@router.get('/list/{id}/', response_model=UserSchema)
+@router.get('/{id}/', response_model=UserResponse)
 async def get_user(id: int, db: Session = Depends(get_db)):
     """gets single user"""
-    return db.query(User).filter(User.id == id).first()
+    user = db.query(User).filter(User.id == id).first()
+    return UserResponse(
+        id=user.id,
+        email=user.email,
+        name=user.name,
+    )
 
 
-@router.get('/list/', response_model=list[UserSchema])
+@router.get('/', response_model=list[UserResponse])
 async def get_users(db: Session = Depends(get_db)):
     """gets all users"""
-    return db.query(User).all()
+    users = db.query(User).all()
+    return [UserResponse(
+        id=user.id,
+        email=user.email,
+        name=user.name,
+    ) for user in users]
 
-# @router.get('/users/{UsersName}/{UsersPassword}/login')
-# async def read_data(UsersName,UsersPassword):
-#     print('hello')
-#     return connection.execute(Users.select().where(Users.c.UsersName == UsersName and Users.c.UsersPassword == UsersName )).fetchall()
 
-@router.post('/create/', response_model=UserSchema)
-async def create_user(user: UserSchema, db: Session = Depends(get_db)):
-    """creates an user"""
-    db_user = User(name=user.name, email=user.email, password=user.password)
-    db.add(db_user)
+@router.post('/create', status_code=201)
+async def create(*, db: Session = Depends(get_db), user: UserCreate):
+    db_user = get_by_email(db=db, email=user.email)
+
+    if db_user:
+        raise HTTPException(status_code=400, detail=f'Email is taken {db_user}')
+    
+    new_user = User(
+        email=user.email,
+        name=user.name,
+        hashed_password=get_password_hash(user.password)
+    )
+    db.add(new_user)
     db.commit()
-    db.refresh(db_user)
-    return db_user
+    db.refresh(new_user)
+    return new_user
 
-# @router.put('/updateUsers/{id}')
-# async def update_data(id:int,Users:Users):
-#     connection.execute(Users.update().values(
-#         UsersName = Users.UsersName,
-#         UsersEmail = Users.UsersEmail,
-#         UsersPassword = Users.UsersPassword,
-#     ).where(Users.c.id == id))
-#     return connection.execute(Users.select()).fetchall()
-
-# @router.delete('/delete/{id}')
-# async def delete_data(id:int,Users:Users):
-#     connection.execute(Users.delete().where(Users.c.id == id))
-#     return connection.execute(Users.select()).fetchall()
 
