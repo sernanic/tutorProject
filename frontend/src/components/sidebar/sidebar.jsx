@@ -12,19 +12,26 @@ function Sidebar() {
     <>
 
       <nav className="nav-menu">
-        {userState}
-        <ul>
-          {sideBarData.map((item,index)=>{
-            return(
-              <li key={index} className={item.cName}>
-                <Link to={item.path}>
-                  {item.icon}
-                  <span>{item.title}</span>
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
+        <div className="companyLogoContainer">
+          <h1>Logo</h1>
+        </div>
+        <div id="mainSideBarContent">
+          <ul>
+            {sideBarData.map((item,index)=>{
+              return(
+                <li key={index} className={item.cName}>
+                  <Link to={item.path}>
+                    {item.icon}
+                    <span>{item.title}</span>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+        <div className="logOutLink">
+          <h1>Log Out</h1>
+        </div>
       </nav>
     </>
 
