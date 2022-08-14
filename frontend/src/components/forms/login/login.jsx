@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../store/index';
 import { useForm } from "react-hook-form";
 import './login.css'
+import loginImgPlaceHolder from '../../../assets/loginAssets/loginPlaceHolderImg.png';
+
 function LoginForm() {
   const userState = useSelector((state)=>state.user);
   const dispatch = useDispatch()
@@ -14,18 +16,35 @@ function LoginForm() {
   console.log(watch("example")); // watch input value by passing the name of it
   return (
     <>
-    
-    <form onSubmit={handleSubmit(onSubmit)} className="login">
-      <h1>login</h1>
-      <input  {...register("example",{ required: true })} />
-      {errors.example && <span>User field is required</span>}
-      
-      <input {...register("exampleRequired", { required: true })} />
-      
-      {errors.exampleRequired && <span>password field is required</span>}
-      
+
+    <div className="loginImage" style={{height: '100%',display:'flex'}}>
+      <img src={loginImgPlaceHolder} alt="placeholder image for login" srcset="" />
+    </div>
+    <div className="loginFormContainer">
+       <form onSubmit={handleSubmit(onSubmit)} className="login">
+      <div className="formTitle">
+        <h1>Sign In</h1>
+      </div>
+      <div className="formInputs">
+        <div>
+        <h5 style={{ marginLeft: '1rem' }}>Username</h5>
+        <input  {...register("example",{ required: true })} placeholder="Username" style={{ marginTop: '0.5rem' }}/>
+        {errors.example && <span>User field is required</span>}
+        </div>
+        
+        <div>
+        <h5 style={{ marginLeft: '1rem' }}>Password</h5>
+        <input {...register("exampleRequired", { required: true })} placeholder="Password" style={{marginTop: '0.5rem' }}/>
+        {errors.exampleRequired && <span>password field is required</span>}
+        </div>
+      </div>
+      <div className="submitButton">
       <input type="submit" />
+      </div>
+     
     </form>
+    </div>
+   
     </>
     
   );
