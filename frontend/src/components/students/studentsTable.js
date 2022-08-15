@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import axios from 'axios';
 import { useSortBy, useTable, useGlobalFilter, useFilters,usePagination } from 'react-table';
-import { StudentGlobalFilter } from "./studentGlobalFilter";
+import { NumberRangeColumnFilter,fuzzyTextFilterFn,StudentGlobalFilter,DefaultColumnFilter } from "./studentFilters";
 
 import {matchSorter} from 'match-sorter';
 
@@ -9,9 +9,6 @@ import {matchSorter} from 'match-sorter';
 function StudentsTable() {
     const [allStudents, setAllStudents] = useState([]);
     const [filterValue, setFilterValue] = useState();
-
-
-
 
     const fetchStudents = async () => {
         const response = await axios
@@ -25,7 +22,6 @@ function StudentsTable() {
     };
 
     const data = useMemo(() => allStudents);
-    //const data = useMemo(() => allStudents, allStudents);
     const columns = useMemo(
         () =>
             allStudents[0]
@@ -36,15 +32,11 @@ function StudentsTable() {
                             return {
                                 Header: 'Email',
                                 accessor: key,
-                                //Cell: ({ value }) => <img src={value} />,
-                                //maxWidth: 70,
                             };
                         if (key === "userName")
                             return {
                                 Header: 'Name',
                                 accessor: key,
-                                //Cell: ({ value }) => <img src={value} />,
-                                //maxWidth: 70,
                             };
                         if (key === "id")
                             return {
@@ -52,8 +44,7 @@ function StudentsTable() {
                                 accessor: key,
                                 Filter: NumberRangeColumnFilter,
                                 filter: 'between',
-                                //Cell: ({ value }) => <img src={value} />,
-                                //maxWidth: 70,
+
                             };
 
                         return { Header: key, accessor: key };
@@ -79,27 +70,10 @@ function StudentsTable() {
         ]);
     };
 
-    function DefaultColumnFilter({
-        column: { filterValue, preFilteredRows, setFilter },
-      }) {
-        const count = preFilteredRows.length
-      
-        return (
-          <input
-            value={filterValue || ''}
-            onChange={e => {
-              setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
-            }}
-            placeholder={`Search ${count} records...`}
-          />
-        )
-      }
-    function fuzzyTextFilterFn(rows, id, filterValue) {
-        return matchSorter(rows, filterValue, { keys: [row => row.values[id]] })
-      }
+    
       
       // Let the table remove the filter if the string is empty
-      fuzzyTextFilterFn.autoRemove = val => !val
+    fuzzyTextFilterFn.autoRemove = val => !val
 
     const filterTypes = React.useMemo(
         () => ({
@@ -159,99 +133,16 @@ function StudentsTable() {
     }, []);
 
 
-    function SliderColumnFilter({
-        column: { filterValue, setFilter, preFilteredRows, id },
-    }) {
-        // Calculate the min and max
-        // using the preFilteredRows
-
-        const [min, max] = React.useMemo(() => {
-            let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-            let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-            preFilteredRows.forEach(row => {
-                min = Math.min(row.values[id], min)
-                max = Math.max(row.values[id], max)
-            })
-            return [min, max]
-        }, [id, preFilteredRows])
-
-        return (
-            <>
-                <input
-                    type="range"
-                    min={min}
-                    max={max}
-                    value={filterValue || min}
-                    onChange={e => {
-                        setFilter(parseInt(e.target.value, 10))
-                    }}
-                />
-                <button onClick={() => setFilter(undefined)}>Off</button>
-            </>
-        )
-    }
     
-
-    function NumberRangeColumnFilter({
-        column: { filterValue = [], preFilteredRows, setFilter, id },
-      }) {
-        const [min, max] = React.useMemo(() => {
-          let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-          let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-          preFilteredRows.forEach(row => {
-            min = Math.min(row.values[id], min)
-            max = Math.max(row.values[id], max)
-          })
-          return [min, max]
-        }, [id, preFilteredRows])
-      
-        return (
-          <div
-            style={{
-              display: 'flex',
-            }}
-          >
-            <input
-              value={filterValue[0] || ''}
-              type="number"
-              onChange={e => {
-                const val = e.target.value
-                setFilter((old = []) => [val ? parseInt(val, 10) : undefined, old[1]])
-              }}
-              placeholder={`Min (${min})`}
-              style={{
-                width: '70px',
-                marginRight: '0.5rem',
-              }}
-            />
-            to
-            <input
-              value={filterValue[1] || ''}
-              type="number"
-              onChange={e => {
-                const val = e.target.value
-                setFilter((old = []) => [old[0], val ? parseInt(val, 10) : undefined])
-              }}
-              placeholder={`Max (${max})`}
-              style={{
-                width: '70px',
-                marginLeft: '0.5rem',
-              }}
-            />
-          </div>
-        )
-      }
 
     return (
 
         <div>
-            <StudentGlobalFilter
-                preGlobalFilteredRows={preGlobalFilteredRows}
-                setGlobalFilter={setGlobalFilter}
-                globalFilter={state.globalFilter}
-            />
+            {/* TODO: refactor this into separate components */}
+
+            {/* Component StudentTableFilters */}
             {headerGroups.map((headerGroup) => (
-                        <div {...headerGroup.getHeaderGroupProps()}>
+                        <div {...headerGroup.getHeaderGroupProps()} className="tableFilters">
                             {headerGroup.headers.map((column) => (
                                 <div scope="col" className="px-6 py-3" {...column.getHeaderProps(column.getSortByToggleProps())}>
                                     {column.canFilter ? column.render('Header') : null}
@@ -262,6 +153,7 @@ function StudentsTable() {
                             ))}
                         </div>
                     ))}
+             {/* Component StudentTable */}
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" {...getTableProps()}>
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     {headerGroups.map((headerGroup) => (
@@ -292,6 +184,8 @@ function StudentsTable() {
                 </tbody>
             </table>
             {/* Pagination arrows */}
+             {/* Component StudentTablePagination - not too sure if this should 
+             just be part of the studenttable */}
             <div className="pagination">
                 <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
                     {'<<'}

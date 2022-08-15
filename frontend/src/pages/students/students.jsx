@@ -9,9 +9,9 @@ function Students() {
     <div className='students'>
       <Sidebar />
      <div>
-     <Link to="/addStudent">
+     {/* <Link to="/addStudent">
         <p>add student</p>
-      </Link>
+      </Link> */}
       <StudentsTable/>
      </div>
     </div>

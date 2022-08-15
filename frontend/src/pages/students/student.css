@@ -1,8 +1,14 @@
 .students {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 15% repeat(1, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 30px;
+    grid-row-gap: 0px;
 }
 .test{
     grid-column: 3 / span 6;
     grid-row: 4/9;
 } 
+.students .tableFilters{
+    display: flex;
+}
