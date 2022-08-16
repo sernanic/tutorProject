@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from schemas.user import UserSchema
 from models.user import User
-from ..deps import get_db
+from routes.deps import get_db
+from config.security import oauth2_schema
 
 router = APIRouter()
 
@@ -24,7 +25,7 @@ async def get_users(db: Session = Depends(get_db)):
 #     return connection.execute(Users.select().where(Users.c.UsersName == UsersName and Users.c.UsersPassword == UsersName )).fetchall()
 
 @router.post('/create/', response_model=UserSchema)
-async def create_user(user: UserSchema, db: Session = Depends(get_db)):
+async def create_user(user: UserSchema, db: Session = Depends(get_db), token: str = Depends(oauth2_schema)):
     """creates an user"""
     db_user = User(name=user.name, email=user.email, password=user.password)
     db.add(db_user)
