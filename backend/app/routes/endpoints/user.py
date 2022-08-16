@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Depends
+from config.security import get_password_hash
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from schemas.user import UserSchema
+from schemas.user import UserResponse, UserCreate, UserSchema
 from models.user import User
 from routes.deps import get_db
 from config.security import oauth2_schema
@@ -8,13 +9,18 @@ from config.security import oauth2_schema
 router = APIRouter()
 
 
-@router.get('/list/{id}/', response_model=UserSchema)
+@router.get('/{id}/', response_model=UserResponse)
 async def get_user(id: int, db: Session = Depends(get_db)):
     """gets single user"""
-    return db.query(User).filter(User.id == id).first()
+    user = db.query(User).filter(User.id == id).first()
+    return UserResponse(
+        id=user.id,
+        email=user.email,
+        name=user.name,
+    )
 
 
-@router.get('/list/', response_model=list[UserSchema])
+@router.get('/', response_model=list[UserResponse])
 async def get_users(db: Session = Depends(get_db)):
     """gets all users"""
     return db.query(User).all()
@@ -33,17 +39,4 @@ async def create_user(user: UserSchema, db: Session = Depends(get_db), token: st
     db.refresh(db_user)
     return db_user
 
-# @router.put('/updateUsers/{id}')
-# async def update_data(id:int,Users:Users):
-#     connection.execute(Users.update().values(
-#         UsersName = Users.UsersName,
-#         UsersEmail = Users.UsersEmail,
-#         UsersPassword = Users.UsersPassword,
-#     ).where(Users.c.id == id))
-#     return connection.execute(Users.select()).fetchall()
-
-# @router.delete('/delete/{id}')
-# async def delete_data(id:int,Users:Users):
-#     connection.execute(Users.delete().where(Users.c.id == id))
-#     return connection.execute(Users.select()).fetchall()
 
