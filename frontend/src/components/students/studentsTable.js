@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import axios from 'axios';
 import { useSortBy, useTable, useGlobalFilter, useFilters,usePagination } from 'react-table';
 import { NumberRangeColumnFilter,fuzzyTextFilterFn,StudentGlobalFilter,DefaultColumnFilter } from "./studentFilters";
-
 import {matchSorter} from 'match-sorter';
 
 
@@ -143,6 +142,7 @@ function StudentsTable() {
             {/* Component StudentTableFilters */}
             {headerGroups.map((headerGroup) => (
                         <div {...headerGroup.getHeaderGroupProps()} className="tableFilters">
+                            <h1 className="px-6 py-3 flex items-center">Filters</h1>
                             {headerGroup.headers.map((column) => (
                                 <div scope="col" className="px-6 py-3" {...column.getHeaderProps(column.getSortByToggleProps())}>
                                     {column.canFilter ? column.render('Header') : null}
@@ -155,9 +155,9 @@ function StudentsTable() {
                     ))}
              {/* Component StudentTable */}
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" {...getTableProps()}>
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead>
                     {headerGroups.map((headerGroup) => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
+                        <tr {...headerGroup.getHeaderGroupProps()} className="studentTableHeader">
                             {headerGroup.headers.map((column) => (
                                 <th scope="col" className="px-6 py-3" {...column.getHeaderProps(column.getSortByToggleProps())}>
                                     {column.render("Header")}
@@ -172,7 +172,7 @@ function StudentsTable() {
                     {page.map((row, idx) => {
                         prepareRow(row);
                         return (
-                            <tr className={isEven(idx) ? "bg-green-400 bg-opacity-30" : "bg-white border-b dark:bg-gray-800 dark:border-gray-700 "}   {...row.getRowProps()}>
+                            <tr className="studentTableRow"   {...row.getRowProps()}>
                                 {row.cells.map((cell, idx) => (
                                     <td className="px-6 py-4" {...cell.getCellProps()}>
                                         {cell.render("Cell")}

@@ -11,4 +11,25 @@
 } 
 .students .tableFilters{
     display: flex;
+    margin-bottom: 30px
+}
+
+.studentTableRow{
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    border-left: 3px solid #27AE60;
+}
+
+.studentTableHeader{
+    background: #FFFFFF;
+    border-radius: 10px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    }
+.pagination{
+    display: flex;
+    justify-content: center;
+    padding: 33px;
 }
