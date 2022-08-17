@@ -2,8 +2,8 @@ from datetime import datetime, timedelta
 from typing import Optional
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from routes.deps import get_db
-from models.user import User
+from config.db import get_db
+from users.models import User
 # JWT
 from jose import jwt, JWTError
 # Hashing
@@ -22,7 +22,7 @@ ALGORITHM = 'HS256'
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
  
 # Encryption
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes="bcrypt", deprecated="auto")
 
 # Oauth2
 oauth2_schema = OAuth2PasswordBearer(tokenUrl='token')
@@ -59,13 +59,13 @@ def get_current_user(token: str = Depends(oauth2_schema), db: Session = Depends(
     return user
         
 
-def verify_password(plain_password: str, hashed_password: str) -> bool:
+def verify_password(plain_password, hashed_password):
     """Check that hashed(plain_password) matches hashed_password.
     """
     return pwd_context.verify(plain_password, hashed_password)
 
 
-def get_password_hash(password: str) -> str:
+def get_password_hash(password: str):
     """Return the hashed version of password
     """
     return pwd_context.hash(password)

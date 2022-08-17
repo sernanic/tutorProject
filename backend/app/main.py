@@ -1,6 +1,6 @@
 
 from fastapi import FastAPI
-from routes.index import api_router
+from index.api import api_router
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
@@ -19,7 +19,7 @@ allow_methods=["*"], # Allows all methods
 allow_headers=["*"], # Allows all headers
 )
 
-# 
+
 app.include_router(api_router, prefix='')
 
 
