@@ -9,4 +9,3 @@ class User(Base):
     name = Column(String(50), index=True)
     email = Column(String(100), unique=True, index=True, nullable=False)
     hashed_password = Column(String(100), nullable=False)
-    account_verified = Column(Boolean, nullable=False, default=False)
