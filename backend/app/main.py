@@ -29,4 +29,4 @@ async def read_data():
 
 # Allows you to start the server with (python3 main.py)
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=5000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -1,4 +1,5 @@
 .nav-menu{
+    
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(8, 1fr);
@@ -8,9 +9,9 @@
     height: 100vh;
     border-radius: 0px 10px 10px 0px;
     color: white;
-    
-
+    min-width: 145px;
 }
+
 .nav-text{
     display: flex;
     justify-content: start;

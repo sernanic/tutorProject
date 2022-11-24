@@ -24,6 +24,7 @@ async def get_user(id: int, db: Session = Depends(get_db), current_user: UserBas
 @user_router.get('/', response_model=list[UserDisplay])
 async def get_users(db: Session = Depends(get_db), current_user: UserBase = Depends(get_current_user)):
     """gets all users"""
+    print(current_user)
     return db.query(User).all()
 
 @user_router.post('/create/', response_model=UserBase)
@@ -38,6 +39,7 @@ async def create_user(user: UserBase, db: Session = Depends(get_db)):
 # Auth related Endpoints
 @auth_router.post('/token/')
 def get_token(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    print(request)
     user = db.query(User).filter(User.email == request.username).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='user not found')

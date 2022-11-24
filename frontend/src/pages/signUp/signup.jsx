@@ -7,7 +7,6 @@ import loginImgPlaceHolder from '../../assets/loginAssets/loginPlaceHolderImg.pn
 
 import './signup.css'
 function SignUp() {
-  
   return (
     <div className='signUpPage'>
       <div className="loginImage" style={{ height: '100%', display: 'flex' }}>

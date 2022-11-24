@@ -6,6 +6,7 @@ import LoginForm from '../../components/forms/auth/login/login'
 import loginImgPlaceHolder from '../../assets/loginAssets/loginPlaceHolderImg.png';
 
 import './login.css'
+
 function Login() {
   
   return (

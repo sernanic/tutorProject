@@ -1,15 +1,35 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../../store/index';
 import { useForm } from "react-hook-form";
 import './signup.css'
+import axios from 'axios';
+
 function SignUpForm() {
   const userState = useSelector((state) => state.user);
   const dispatch = useDispatch()
   const { loginAdmin, loginStudent, loginTutor } = bindActionCreators(actionCreators, dispatch)
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  const onSubmit = data => console.log(data);
+  const [resStatus, setResStatus] = useState("");
+
+  const onSubmit = data => {
+
+    axios.post("http://0.0.0.0:8000/users/create", data)
+    .then(function (response) {
+      console.log(data)
+      console.log(response.status);
+      if (response.status === 200) {
+        setResStatus("Successful Registration!");
+      } else {
+        setResStatus("error");
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    
+    console.log(data)};
 
   console.log(watch("example")); // watch input value by passing the name of it
   return (
@@ -20,6 +40,11 @@ function SignUpForm() {
             <h1>Sign Up</h1>
           </div>
           <div className="formInputs">
+          <div>
+              <input  {...register("name", { required: true })} placeholder="Name" style={{ marginTop: '0.5rem' }}/>
+              {errors.example && <span>User field is required</span>}
+            </div>
+
             <div>
               <input  {...register("email", { required: true })} placeholder="Email" style={{ marginTop: '0.5rem' }}/>
               {errors.example && <span>User field is required</span>}

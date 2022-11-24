@@ -11,7 +11,7 @@ function StudentsTable() {
 
     const fetchStudents = async () => {
         const response = await axios
-            .get("http://127.0.0.1:8000/users/list")
+            .get("http://0.0.0.0:8000/users")
             .catch((err) => console.log(err));
         if (response) {
             const students = response.data;
