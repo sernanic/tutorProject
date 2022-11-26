@@ -7,10 +7,11 @@ import Settings from './pages/settings';
 import CreateTutor from './pages/createTutor'
 import Login from './pages/login/login';
 import SignUp from './pages/signUp/signup';
-
+import {Account} from "./components/account/Account"
 function App() {
   return (
     <>
+    <Account>
       <Router>
         <Routes>
           <Route path='/login' element={<Login/>} />
@@ -21,6 +22,8 @@ function App() {
           <Route path='/settings' element={<Settings/>} />
         </Routes>
       </Router>
+    </Account>
+      
     </>
   );
 }

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../../store/index';
 import { useForm } from "react-hook-form";
+import userPool from '../userPool/userPool';
 import './signup.css'
 import axios from 'axios';
 
@@ -28,6 +29,16 @@ function SignUpForm() {
     .catch(function (error) {
       console.log(error);
     });
+
+    userPool.signUp(data.email, data.password, [], null, (err, data) => {
+      if (err) {
+        console.error(err);
+      }
+      else{
+        console.log("it worked baby")
+      }
+      console.log(data);
+    });
     
     console.log(data)};
 
@@ -40,7 +51,7 @@ function SignUpForm() {
             <h1>Sign Up</h1>
           </div>
           <div className="formInputs">
-          <div>
+            <div>
               <input  {...register("name", { required: true })} placeholder="Name" style={{ marginTop: '0.5rem' }}/>
               {errors.example && <span>User field is required</span>}
             </div>

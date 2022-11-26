@@ -10,7 +10,7 @@ function SignUp() {
   return (
     <div className='signUpPage'>
       <div className="loginImage" style={{ height: '100%', display: 'flex' }}>
-        <img src={loginImgPlaceHolder} alt="placeholder image for login" srcset="" />
+        <img src={loginImgPlaceHolder} alt="placeholder image for login" srcSet="" />
       </div>
       <SignUpForm/>
     </div>
