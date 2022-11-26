@@ -5,12 +5,12 @@ import {sideBarData} from './sidebarData';
 import {AccountContext} from "../account/Account"
 import './sidebar.css';
 import {useNavigate} from "react-router-dom"
-import {useSelectedUserStore} from "../../store/useStore"
+import {useCurrentClientStore, useSelectedUserStore} from "../../store/useStore"
 
 function Sidebar() {
   const { getSession, logout } = useContext(AccountContext);
   const navigate = useNavigate();
-  const getSelectedUser = useSelectedUserStore(state => state.selectedUser);
+  const getCurrentClient = useCurrentClientStore(state => state.currentClient);
 
   function logOutSS(){
     logout();
@@ -23,7 +23,7 @@ function Sidebar() {
       <nav className="nav-menu">
         <div className="companyLogoContainer">
           <h1>Logo</h1>
-          <h1>{getSelectedUser['id']}</h1>
+          {getCurrentClient['name']}
         </div>
         <div id="mainSideBarContent">
           <ul>

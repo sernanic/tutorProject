@@ -8,6 +8,7 @@ import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import userPool from '../userPool/userPool';
 import {AccountContext} from "../../../account/Account";
 import { useNavigate } from 'react-router-dom';
+import { useCurrentClientStore } from '../../../../store/useStore';
 function LoginForm() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const { authenticate } = useContext(AccountContext);
@@ -15,7 +16,23 @@ function LoginForm() {
   const [status, setStatus] = useState(false);
 
   const { getSession, logout } = useContext(AccountContext);
+
+  const setCurrentClient = useCurrentClientStore((state) => state.setCurrentClient)
+
   const navigate = useNavigate();
+
+  const fetchUser = async (email) => {
+    var fetchUrl = "http://0.0.0.0:8000/users/email/" +email
+    const response = await axios.get(fetchUrl).then(function (response) {
+      console.log(response["data"])
+      setCurrentClient(response["data"])
+    }
+    ).catch((err) => console.log(err));
+    if (response) {
+        const students = response.data;
+        console.log("Students: ", students);
+    }
+};
 
   useEffect(() => {
     getSession().then((session) => {
@@ -29,8 +46,9 @@ function LoginForm() {
   const onSubmit =  data => {
     console.log(data.email, data.password)
     authenticate(data.email, data.password)
-      .then((data) => {
-        console.log("Logged in!", data);
+      .then((data2) => {
+        fetchUser(data.email)
+        console.log("Logged in!", data2);
         navigate("/home");
 
       })

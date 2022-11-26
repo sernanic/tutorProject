@@ -3,9 +3,11 @@ import { useForm } from "react-hook-form";
 import userPool from '../userPool/userPool';
 import './signup.css'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function SignUpForm() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const navigate = useNavigate();
 
   const onSubmit = data => {
 
@@ -14,6 +16,7 @@ function SignUpForm() {
       console.log(data)
       console.log(response.status);
       if (response.status === 200) {
+        navigate('/login')
       } else {
       }
     })
@@ -24,9 +27,6 @@ function SignUpForm() {
     userPool.signUp(data.email, data.password, [], null, (err, data) => {
       if (err) {
         console.error(err);
-      }
-      else{
-        console.log("it worked baby")
       }
       console.log(data);
     });
