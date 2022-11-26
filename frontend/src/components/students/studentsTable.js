@@ -3,11 +3,20 @@ import axios from 'axios';
 import { useSortBy, useTable, useGlobalFilter, useFilters,usePagination } from 'react-table';
 import { NumberRangeColumnFilter,fuzzyTextFilterFn,StudentGlobalFilter,DefaultColumnFilter } from "./studentFilters";
 import {matchSorter} from 'match-sorter';
-
+import { useNavigate } from 'react-router-dom';
+import {useSelectedUserStore} from "../../store/useStore"
 
 function StudentsTable() {
     const [allStudents, setAllStudents] = useState([]);
     const [filterValue, setFilterValue] = useState();
+    const navigateToUser = useNavigate()
+    const updateUser = useSelectedUserStore((state) => state.updateUser)
+
+    function getUserView(studentObj){
+        updateUser(studentObj)
+        navigateToUser('/user')
+
+    }
 
     const fetchStudents = async () => {
         const response = await axios
@@ -27,6 +36,14 @@ function StudentsTable() {
                 ? Object.keys(allStudents[0])
                     .filter((key) => key !== "userPassword")
                     .map((key) => {
+                        if (key === "id")
+                            return {
+                                Header: 'id',
+                                accessor: key,
+                                Filter: NumberRangeColumnFilter,
+                                filter: 'between',
+
+                            };
                         if (key === "userEmail")
                             return {
                                 Header: 'Email',
@@ -37,14 +54,7 @@ function StudentsTable() {
                                 Header: 'Name',
                                 accessor: key,
                             };
-                        if (key === "id")
-                            return {
-                                Header: 'id',
-                                accessor: key,
-                                Filter: NumberRangeColumnFilter,
-                                filter: 'between',
-
-                            };
+                        
 
                         return { Header: key, accessor: key };
                     })
@@ -61,7 +71,7 @@ function StudentsTable() {
                 id: "Edit",
                 Header: "Edit",
                 Cell: ({ row }) => (
-                    <a className="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => alert("edit " + row.values.userName)}>
+                    <a className="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => getUserView(row.values)}>
                         Edit
                     </a>
                 ),

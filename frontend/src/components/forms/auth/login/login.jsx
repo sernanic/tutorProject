@@ -1,7 +1,4 @@
 import React, { useEffect, useMemo, useState,useContext } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../../../store/index';
 import { useForm } from "react-hook-form";
 import './login.css'
 import loginImgPlaceHolder from '../../../../assets/loginAssets/loginPlaceHolderImg.png';
@@ -10,23 +7,21 @@ import qs from 'qs';
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import userPool from '../userPool/userPool';
 import {AccountContext} from "../../../account/Account";
-
+import { useNavigate } from 'react-router-dom';
 function LoginForm() {
-  const userState = useSelector((state) => state.user);
-  const dispatch = useDispatch()
-  const { loginAdmin, loginStudent, loginTutor } = bindActionCreators(actionCreators, dispatch)
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  const [resStatus, setResStatus] = useState("");
   const { authenticate } = useContext(AccountContext);
   
   const [status, setStatus] = useState(false);
 
   const { getSession, logout } = useContext(AccountContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getSession().then((session) => {
       console.log("Session: ", session);
       setStatus(true);
+      console.log(status)
     });
   }, []);
 
@@ -36,6 +31,8 @@ function LoginForm() {
     authenticate(data.email, data.password)
       .then((data) => {
         console.log("Logged in!", data);
+        navigate("/home");
+
       })
       .catch((err) => {
         console.error("Failed to login", err);
@@ -66,8 +63,6 @@ function LoginForm() {
             <input type="submit" />
           </div>
         </form>
-        {status ? "you aree logged in" : "Please login"}
-
       </div>
     </>
   );

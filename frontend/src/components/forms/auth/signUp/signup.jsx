@@ -1,18 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../../../store/index';
 import { useForm } from "react-hook-form";
 import userPool from '../userPool/userPool';
 import './signup.css'
 import axios from 'axios';
 
 function SignUpForm() {
-  const userState = useSelector((state) => state.user);
-  const dispatch = useDispatch()
-  const { loginAdmin, loginStudent, loginTutor } = bindActionCreators(actionCreators, dispatch)
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  const [resStatus, setResStatus] = useState("");
 
   const onSubmit = data => {
 
@@ -21,9 +14,7 @@ function SignUpForm() {
       console.log(data)
       console.log(response.status);
       if (response.status === 200) {
-        setResStatus("Successful Registration!");
       } else {
-        setResStatus("error");
       }
     })
     .catch(function (error) {

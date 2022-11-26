@@ -1,7 +1,4 @@
 import React from 'react';
-import {useSelector, useDispatch} from 'react-redux'
-import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../store/index';
 import SignUpForm from '../../components/forms/auth/signUp/signup'
 import loginImgPlaceHolder from '../../assets/loginAssets/loginPlaceHolderImg.png';
 

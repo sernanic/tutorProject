@@ -1,12 +1,13 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route,Routes } from 'react-router-dom';
-import Home from './pages/home/home';
-import Students from './pages/students/students';
-import Settings from './pages/settings';
-import CreateTutor from './pages/createTutor'
-import Login from './pages/login/login';
-import SignUp from './pages/signUp/signup';
+import Home from './views/home/home';
+import Students from './views/students/students';
+import Settings from './views/settings';
+import CreateTutor from './views/createTutor'
+import Login from './views/login/login';
+import SignUp from './views/signUp/signup';
+import User from './views/selectedUser/user'
 import {Account} from "./components/account/Account"
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path='/createTutor' element={<CreateTutor/>} />
           <Route path='/students' element={<Students/>} />
           <Route path='/settings' element={<Settings/>} />
+          <Route path='/user' element={<User/>} />
         </Routes>
       </Router>
     </Account>
