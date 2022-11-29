@@ -79,7 +79,7 @@ Run the following command in the terminal
 ```bash
   alembic revision --autogenerate -m 'test'
 
-  alembig upgrade head
+  alembic upgrade head
 ```
 
 ### Start the frontend / backend servers

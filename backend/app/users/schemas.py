@@ -11,8 +11,34 @@ class UserBase(BaseModel):
 
 
 class UserDisplay(BaseModel):
+    id: int
     email: str
     name: str
 
     class Config:
         orm_mode = True
+
+
+class Session(BaseModel):
+    sessionId:int
+    name:str
+    numberOfActivites:int
+    userId:int
+    class Config:
+        orm_mode = True
+
+class Exercise(BaseModel):
+    exerciseId:int
+    sessionId:int
+    name:str
+    sets:int
+    videoLink:str
+    imageLink:str
+    exerciseType:str
+    score:int
+    duration:int
+    difficultyLevel:int
+    userId:int
+    class Config:
+        orm_mode = True
+

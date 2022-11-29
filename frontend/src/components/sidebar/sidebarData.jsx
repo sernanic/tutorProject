@@ -23,8 +23,8 @@ export const sideBarData =[
         cName: "nav-text"
     },
     {
-        title:'Students',
-        path:'/students',
+        title:'Users',
+        path:'/users',
         icon:  <faIcons.FaUserGraduate/>,
         cName: "nav-text"
     },
