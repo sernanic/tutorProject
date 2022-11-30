@@ -19,8 +19,8 @@ class UserDisplay(BaseModel):
         orm_mode = True
 
 
-class Session(BaseModel):
-    sessionId:int
+class AssigmentBase(BaseModel):
+    assigmentId:int
     name:str
     numberOfActivites:int
     userId:int

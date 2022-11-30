@@ -11,10 +11,10 @@ class User(Base):
     password = Column(String(100), nullable=False)
 
 
-class Session(Base):
-    __tablename__ = 'session'
+class Assignments(Base):
+    __tablename__ = 'assignments'
 
-    sessionId = Column(Integer, primary_key=True, index=True)
+    assigmentId = Column(Integer, primary_key=True, index=True)
     name = Column(String(50), index=True)
     numberOfActivites= Column(Integer, index=True)
     userId = Column(Integer, index=True)

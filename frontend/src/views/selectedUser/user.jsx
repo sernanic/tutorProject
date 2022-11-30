@@ -4,6 +4,7 @@ import './user.css'
 import {AccountContext} from "../../components/account/Account"
 import { Navigate, useNavigate } from 'react-router-dom';
 import {useSelectedUserStore} from "../../store/useStore"
+import AssignmentsTable from '../../components/assignments/assignmentsTable';
 function User() {
   
   const [status, setStatus] = useState(false);
@@ -11,7 +12,7 @@ function User() {
   const { getSession, logout } = useContext(AccountContext);
 
   const getSelectedUser = useSelectedUserStore(state => state.selectedUser);
-
+  console.log(getSelectedUser);
 
   useEffect(() => {
     getSession().then((session) => {
@@ -23,6 +24,7 @@ function User() {
     <div className='userContainer'>
       <Sidebar/>
       {getSelectedUser['name']}
+      <AssignmentsTable/>
       
 
     </div>
